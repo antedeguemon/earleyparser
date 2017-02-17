@@ -3,7 +3,7 @@ import re
 from cfglib.exceptions import *
 
 class Grammar(object):
-    def __init__(self, nonterminals, terminals, productions, start):
+    def __init__(self, start=None, nonterminals=[], terminals=[], productions={}):
         self.nonterminals = nonterminals
         self.terminals = terminals
         self.productions = productions
@@ -17,6 +17,9 @@ class Grammar(object):
             self.productions[left] = [right]
         else:
             self.productions[left].append(right)
+
+    def start(self, nonterminal):
+        self.start = nonterminal
 
     def add_terminal(self, terminal):
         self.terminals.append(terminal)

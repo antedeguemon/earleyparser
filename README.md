@@ -1,1 +1,56 @@
-# cfglib
+# cfglib - a simple context free grammar library
+cfglib is a python library that offers functions to handle [CFGs](https://en.wikipedia.org/wiki/Context-free_grammar).
+It was written originaly as a project for the formal languages and automatas class at UFRGS.
+
+## Examples
+### Creating a grammar that accepts binary numbers
+```python
+import cfglib
+gr = cfglib.Grammar('S', ['S'], ['1', '0'])
+gr.add('S', ['0', 'S']) 
+gr.add('S', ['1', 'S'])
+gr.add('S', ['1'])
+gr.add('S', ['0'])
+```
+
+Or simply set everything after the object is created:
+```python
+import cfglib
+gr = cfglib.Grammar()
+gr.start('S')
+gr.add_nonterminal('S')
+gr.add_terminal('0')
+gr.add_terminal('1')
+gr.add('S', ['0', 'S']) 
+gr.add('S', ['1', 'S'])
+gr.add('S', ['1'])
+gr.add('S', ['0'])
+```
+
+### Checking if a word is accepted by a grammar using Earley parsing
+Using the gr grammar created previously.
+```python
+pr = cfglib.Parser(gr)
+pr.run('101011')
+
+# all derivations that went into the first production
+completeds = pr.get_completeds()
+if len(completeds) == 0:
+    # no derivation went into the first production
+    print 'not accepted'
+else:
+    print 'accepted!'
+```
+
+### Building an AST from an Earley parsing
+Using the parsing previosly made.
+```python
+# completeds should have 1 item as the word '101011' was recognized
+def walk(node, level=0):
+    print level*'-' + node['a']
+    for child in node['children']:
+        walk(child, level+1)
+
+ast = pr.make_node(completeds[0])
+walk(ast)
+```

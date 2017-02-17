@@ -61,10 +61,7 @@ class Parser(object):
         self.tables.append(Table(k))
 
     def run(self, words):
-        n_words = []
-        for word in words:
-            n_words.append([word])
-        self.words = n_words
+        self.words = [[word] for word in words]
         self.init()
 
         for i in range(0, len(self.words) + 1):
@@ -83,11 +80,6 @@ class Parser(object):
         for i in range(0, len(self.words)+1):
             self.add_table(i)
         self.tables[0].add_row(Row(0, '', ['GAMMA'], (0, 0)))
-
-    def show_tables(self):
-        for table in self.tables:
-            for row in table.rows:
-                row.show()
 
     def scan(self, row):
         # creates a new row and copies the production that triggered this op
@@ -116,6 +108,11 @@ class Parser(object):
                                                  old_row.right, 
                                                  (old_row.start, row.end), 
                                                  old_row.completeds[:]), row)
+
+    def show_tables(self):
+        for table in self.tables:
+            for row in table.rows:
+                row.show()
 
     def make_node(self, row, relatives=[]):
         nodo = {'a': row.left}
