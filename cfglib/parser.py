@@ -50,8 +50,8 @@ class Table(object):
 class Parser(object):
     def __init__(self, grammar):
         grammar.productions['GAMMA'] = [[grammar.start]]
-        grammar.nonterminals.append('GAMMA')
-        grammar.nonterminals.append('')
+        #grammar.nonterminals.append('GAMMA')
+        #grammar.nonterminals.append('')
 
         self.grammar = grammar
         self.tables = []
@@ -133,7 +133,8 @@ class Parser(object):
             
         # deletes GAMMA
         del self.grammar.productions['GAMMA']
-        for nonterminal in self.grammar.nonterminals:
-            if nonterminal == '' or nonterminal == 'GAMMA':
-                del nonterminal
+        #for nonterminal in self.grammar.nonterminals:
+        #    if nonterminal == '' or nonterminal == 'GAMMA':
+        #        del nonterminal
+        
         return completeds

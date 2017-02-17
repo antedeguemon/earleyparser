@@ -1,4 +1,4 @@
-# cfglib - a simple context free grammar library
+# a simple context free grammar library
 cfglib is a python library that offers functions to handle [CFGs](https://en.wikipedia.org/wiki/Context-free_grammar).
 It was written originaly as a project for the formal languages and automatas class at UFRGS.
 
@@ -6,21 +6,7 @@ It was written originaly as a project for the formal languages and automatas cla
 ### Creating a grammar that accepts binary numbers
 ```python
 import cfglib
-gr = cfglib.Grammar('S', ['S'], ['1', '0'])
-gr.add('S', ['0', 'S']) 
-gr.add('S', ['1', 'S'])
-gr.add('S', ['1'])
-gr.add('S', ['0'])
-```
-
-Or simply set everything after the object is created:
-```python
-import cfglib
-gr = cfglib.Grammar()
-gr.start('S')
-gr.add_nonterminal('S')
-gr.add_terminal('0')
-gr.add_terminal('1')
+gr = cfglib.Grammar('S')
 gr.add('S', ['0', 'S']) 
 gr.add('S', ['1', 'S'])
 gr.add('S', ['1'])
