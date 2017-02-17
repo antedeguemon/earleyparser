@@ -1,5 +1,4 @@
 # -*- encoding: utf-8 -*-
-import re
 from cfglib.exceptions import *
 
 class Grammar(object):
