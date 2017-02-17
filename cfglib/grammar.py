@@ -1,36 +1,28 @@
 # -*- encoding: utf-8 -*-
 import re
-from cfglib.exceptions import GrammarException, EmptyGrammarError, InvalidNonterminalError
+from cfglib.exceptions import *
 
 class Grammar(object):
-    '''
-    Attributes:
-        nonterminals    : list
-        terminals       : list
-        productions     : dict
-        start           : str
-    '''
     def __init__(self, nonterminals, terminals, productions, start):
         self.nonterminals = nonterminals
         self.terminals = terminals
         self.productions = productions
         self.start = start
 
-    def test(self):
-        if len(self.productions) == 0: # self.len
-            raise EmptyGrammarError()
-        if ('V' in self.nonterminals or 'V' in self.productions or
-                'V' in self.terminals):
-            raise InvalidNonterminalError()
+    def add(self, left, right):
+        if left not in self.nonterminals:
+            self.nonterminals.append(left)
 
-    @staticmethod
-    def len(productions):
-        # Retorna a quantidade de regras de produções de uma gramática
-        length = 0
-        #[len(productions[]) for production in productions]
-        for production in productions:
-            length += len(productions[production])
-        return length
+        if left not in self.productions:
+            self.productions[left] = [right]
+        else:
+            self.productions[left].append(right)
+
+    def add_terminal(self, terminal):
+        self.terminals.append(terminal)
+
+    def add_nonterminal(self, nonterminal):
+        self.nonterminals.append(nonterminal)
 
     def is_terminal(self, symbol):
         for terminal in self.terminals:
