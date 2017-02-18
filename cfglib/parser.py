@@ -50,9 +50,6 @@ class Table(object):
 class Parser(object):
     def __init__(self, grammar):
         grammar.productions['GAMMA'] = [[grammar.start]]
-        #grammar.nonterminals.append('GAMMA')
-        #grammar.nonterminals.append('')
-
         self.grammar = grammar
         self.tables = []
         self.words = []
@@ -88,11 +85,11 @@ class Parser(object):
         if row.end < len(self.words):
             atual = self.words[row.end][0]
             if next_symbol == atual:
-                self.tables[row.end+1].add_row(Row(1, next_symbol, [atual], 
-                                                   (row.end, (row.end+1))))
+                nrow = Row(1, next_symbol, [atual], (row.end, (row.end+1)))
+                self.tables[row.end+1].add_row(nrow)
 
     def predict(self, row):
-        # copies the productions from the nonterminal that triggered this op,
+        # copies the productions from the nonterminal that triggered this op
         # with the new pointer in the begining of the right side
         b = row.get_next()
         if b in self.grammar.productions:
@@ -104,10 +101,9 @@ class Parser(object):
         for old_row in self.tables[row.start].get_rows():
             if (not old_row.is_complete() and 
                 old_row.right[old_row.dot] == row.left):
-                self.tables[row.end].add_row(Row((old_row.dot+1), old_row.left, 
-                                                 old_row.right, 
-                                                 (old_row.start, row.end), 
-                                                 old_row.completeds[:]), row)
+                nrow = Row((old_row.dot+1), old_row.left, old_row.right, 
+                           (old_row.start, row.end), old_row.completeds[:])
+                self.tables[row.end].add_row(nrow, row)
 
     def show_tables(self):
         for table in self.tables:
