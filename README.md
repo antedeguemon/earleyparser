@@ -7,10 +7,10 @@ It was written originaly as a project for the formal languages and automatas cla
 ```python
 import cfglib
 gr = cfglib.Grammar('S')
-gr.add('S', ['0', 'S']) 
-gr.add('S', ['1', 'S'])
-gr.add('S', ['1'])
-gr.add('S', ['0'])
+gr.add('S', ['0', 'S'])     # S = 0 S
+gr.add('S', ['1', 'S'])     # S = 1 S
+gr.add('S', ['1'])          # S = 1
+gr.add('S', ['0'])          
 ```
 
 ### Checking if a word is accepted by a grammar using Earley parsing
@@ -40,3 +40,9 @@ def walk(node, level=0):
 ast = pr.make_node(completeds[0])
 walk(ast)
 ```
+
+## Thanks to
+- Algorithm described in the book "Linguagens Formais e Automatos" by Paulo Blauth.
+- Algorithm described in "Speech and Language Processing: An introduction to natural language processing, computational linguistics, and speech recognition" by  D. Jurafsky and James H. Martin.
+- Earley parsing AST building explanation by [loup-vaillant](loup-vaillant.fr/tutorials/earley-parsing/)
+- [Earley-Parser by cskau](https://github.com/cskau/Earley-Parser)
