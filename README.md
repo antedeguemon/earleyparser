@@ -1,3 +1,8 @@
+A simple earley parser.
+```
+pip install earleyparser 
+```
+
 ## Examples
 ### Creating a grammar that accepts binary numbers
 ```python
