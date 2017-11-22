@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-from cfglib.exceptions import *
+from earleyparser.exceptions import *
 
 class Grammar(object):
     def __init__(self, start=None, productions={}):

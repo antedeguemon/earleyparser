@@ -120,17 +120,12 @@ class Parser(object):
                                   if _.start < len(self.words)]
         return nodo
 
-    def get_completeds(self):
+    def get_completes(self):
         # returns all rows that are in the GAMMA nonterminal
-        completeds = []
+        completes = []
         for row in self.tables[-1].get_rows():
             if row.left == 'GAMMA':
                 completeds.append(row)
-            
-        # deletes GAMMA
         del self.grammar.productions['GAMMA']
-        #for nonterminal in self.grammar.nonterminals:
-        #    if nonterminal == '' or nonterminal == 'GAMMA':
-        #        del nonterminal
         
-        return completeds
+        return completes
