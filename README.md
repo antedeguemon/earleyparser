@@ -42,8 +42,8 @@ ast = pr.make_node(completeds[0])
 walk(ast)
 ```
 
-## Using...
-- Algorithm described in the book "Linguagens Formais e Automatos" by Paulo Blauth.
-- Algorithm described in "Speech and Language Processing: An introduction to natural language processing, computational linguistics, and speech recognition" by  D. Jurafsky and James H. Martin.
-- Earley parsing AST building explanation by [loup-vaillant](loup-vaillant.fr/tutorials/earley-parsing/)
+## Using
+- _Linguagens Formais e Automatos_ by Paulo Blauth.
+- _Speech and Language Processing: An introduction to natural language processing, computational linguistics, and speech recognition_ by D. Jurafsky and James H. Martin.
+- [Earley parsing AST building explanation by loup-vaillant](loup-vaillant.fr/tutorials/earley-parsing/)
 - [Earley-Parser by cskau](https://github.com/cskau/Earley-Parser)
