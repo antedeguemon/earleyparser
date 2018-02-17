@@ -6,16 +6,15 @@ pip install earleyparser
 ## Examples
 ### Creating a grammar that accepts binary numbers
 ```python
-import earleyparser
 gr = earleyparser.Grammar('S')
-gr.add('S', ['0', 'S'])     # S = 0 S
-gr.add('S', ['1', 'S'])     # S = 1 S
-gr.add('S', ['1'])          # S = 1
+gr.add('S', ['0', 'S'])
+gr.add('S', ['1', 'S'])
+gr.add('S', ['1'])
 gr.add('S', ['0'])          
 ```
 
 ### Checking if a word is accepted by a grammar using Earley parsing
-Using the gr grammar created previously.
+Using the `gr` grammar previously created.
 ```python
 pr = earleyparser.Parser(gr)
 pr.run('101011')
@@ -42,7 +41,7 @@ ast = pr.make_node(completeds[0])
 walk(ast)
 ```
 
-## Using
+## Bibliography
 - _Linguagens Formais e Automatos_ by Paulo Blauth.
 - _Speech and Language Processing: An introduction to natural language processing, computational linguistics, and speech recognition_ by D. Jurafsky and James H. Martin.
 - [Earley parsing AST building explanation by loup-vaillant](loup-vaillant.fr/tutorials/earley-parsing/)
