@@ -1,15 +1,15 @@
 # -*- encoding: utf-8 -*-
 
 class Row(object):
-    def __init__(self, dot, left, right, pos, completeds=[]):
+    def __init__(self, dot, left, right, pos, completes=[]):
         self.dot = dot
         self.left = left
         self.right = right
         self.pos = pos
         self.start = pos[0]
         self.end = pos[1]
-        self.completeds = completeds
-    
+        self.completes = completes
+
     def show(self):
         dotted = ''.join(self.right)
         formated = (self.left + ' -> ' + ' ' + dotted[:self.dot] +
@@ -24,7 +24,7 @@ class Row(object):
 
     def is_complete(self):
         return self.dot == len(self.right)
-    
+
     def __eq__(self, other):
         return (self.left == other.left and self.right == other.right and
                 self.dot == other.dot and self.pos == other.pos)
@@ -34,12 +34,12 @@ class Table(object):
         self.rows = []
         self.k = k
 
-    def add_row(self, row, completeds=None):
+    def add_row(self, row, completes=None):
         if row not in self.rows:
             self.rows.append(row)
-            
-        if completeds is not None and completeds not in row.completeds:
-            row.completeds.append(completeds)
+
+        if completes is not None and completes not in row.completes:
+            row.completes.append(completes)
 
     def get_rows(self):
         return self.rows
@@ -91,18 +91,18 @@ class Parser(object):
     def predict(self, row):
         # copies the productions from the nonterminal that triggered this op
         # with the new pointer in the begining of the right side
-        b = row.get_next()
-        if b in self.grammar.productions:
-            for rule in self.grammar.productions[b]:
-                self.tables[row.end].add_row(Row(0, b, rule, (row.end, row.end)))
+        next_row = row.get_next()
+        if next_row in self.grammar.productions:
+            for rule in self.grammar.productions[next_row]:
+                self.tables[row.end].add_row(Row(0, next_row, rule, (row.end, row.end)))
 
     def complete(self, row):
         # advances all rows that were waiting for the current word
         for old_row in self.tables[row.start].get_rows():
-            if (not old_row.is_complete() and 
+            if (not old_row.is_complete() and
                 old_row.right[old_row.dot] == row.left):
-                nrow = Row((old_row.dot+1), old_row.left, old_row.right, 
-                           (old_row.start, row.end), old_row.completeds[:])
+                nrow = Row((old_row.dot+1), old_row.left, old_row.right,
+                           (old_row.start, row.end), old_row.completes[:])
                 self.tables[row.end].add_row(nrow, row)
 
     def show_tables(self):
@@ -112,11 +112,11 @@ class Parser(object):
 
     def make_node(self, row, relatives=[]):
         nodo = {'a': row.left}
-        nodo['children'] = [self.make_node(_, []) for _ in row.completeds]        
-        if not row.completeds:
+        nodo['children'] = [self.make_node(_, []) for _ in row.completes]
+        if not row.completes:
             relatives += [row]
         if row.left == 'GAMMA':
-            nodo['children'] += [{'a': self.words[_.start]} for _ in relatives 
+            nodo['children'] += [{'a': self.words[_.start]} for _ in relatives
                                   if _.start < len(self.words)]
         return nodo
 
@@ -125,7 +125,7 @@ class Parser(object):
         completes = []
         for row in self.tables[-1].get_rows():
             if row.left == 'GAMMA':
-                completeds.append(row)
+                completes.append(row)
         del self.grammar.productions['GAMMA']
-        
+
         return completes
