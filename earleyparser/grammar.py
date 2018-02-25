@@ -1,5 +1,4 @@
 # -*- encoding: utf-8 -*-
-from earleyparser.exceptions import *
 
 class Grammar(object):
     def __init__(self, start=None, productions={}):
@@ -16,7 +15,7 @@ class Grammar(object):
         self.start = nonterminal
 
     def is_terminal(self, symbol):
-        return (not self.is_nonterminal(symbol))
+        return not self.is_nonterminal(symbol)
 
     def is_nonterminal(self, symbol):
-        return (symbol in self.productions)
+        return symbol in self.productions
