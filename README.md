@@ -29,7 +29,7 @@ else:
 ```
 
 ### Building an AST from an Earley parsing
-Using the parsing previosly made.
+Using the parsing previously made.
 ```python
 # completes should have 1 item as the word '101011' was recognized
 def walk(node, level=0):
@@ -37,7 +37,7 @@ def walk(node, level=0):
     for child in node['children']:
         walk(child, level+1)
 
-ast = pr.make_node(completeds[0])
+ast = pr.make_node(completes[0])
 walk(ast)
 ```
 
