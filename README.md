@@ -1,37 +1,47 @@
-A simple earley parser.
+# earleyparser
+
+This is a Python implementation of the [Earley parser algorithm](https://en.wikipedia.org/wiki/Earley_parser).
+
+It determines if a given word belongs to a specified context-free language. If the word
+belongs to the specified language, it also mounts the parsing [derivation tree](https://en.wikipedia.org/wiki/Parse_tree).
+
+## Installation
+
 ```
-pip install earleyparser 
+pip install earleyparser
 ```
 
 ## Examples
-### Creating a grammar that accepts binary numbers
+
+### Creating a grammar that accepts only binary numbers
+
 ```python
 gr = earleyparser.Grammar('S')
 gr.add('S', ['0', 'S'])
 gr.add('S', ['1', 'S'])
 gr.add('S', ['1'])
-gr.add('S', ['0'])          
+gr.add('S', ['0'])
 ```
 
-### Checking if a word is accepted by a grammar using Earley parsing
-Using the `gr` grammar previously created.
+### Checking if a word is accepted by a grammar
+
 ```python
 pr = earleyparser.Parser(gr)
 pr.run('101011')
 
-# all derivations that went into the first production
+# All derivations that went into the first production
 completes = pr.get_completes()
 if len(completes) == 0:
-    # no derivation went into the first production
     print 'not accepted'
 else:
     print 'accepted!'
 ```
 
-### Building an AST from an Earley parsing
-Using the parsing previously made.
+### Building an AST from a parsing
+
 ```python
-# completes should have 1 item as the word '101011' was recognized
+# The word `101011` was recognized by the grammer
+# therefore, `completes` should have exactly one item.
 def walk(node, level=0):
     print level*'-' + node['a']
     for child in node['children']:
@@ -41,8 +51,8 @@ ast = pr.make_node(completes[0])
 walk(ast)
 ```
 
-## Bibliography
-- _Linguagens Formais e Automatos_ by Paulo Blauth.
-- _Speech and Language Processing: An introduction to natural language processing, computational linguistics, and speech recognition_ by D. Jurafsky and James H. Martin.
+## References
+
+- [Linguagens Formais e Automatos book by Blauth Menezes](https://www.amazon.com/Linguagens-Formais-Aut%C3%B4matos-Did%C3%A1ticos-Portuguese-ebook/dp/B01863RJF6)
 - [Earley parsing AST building explanation by loup-vaillant](loup-vaillant.fr/tutorials/earley-parsing/)
 - [Earley-Parser by cskau](https://github.com/cskau/Earley-Parser)
