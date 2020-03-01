@@ -3,7 +3,7 @@ setup(
   name = 'earleyparser',
   packages = ['earleyparser'],
   version = '0.1',
-  description = 'earley parser algortihm',
+  description = 'earley parser',
   author = 'Vicente Merlo',
   author_email = 'vammerlo@inf.ufrgs.br',
   url = 'https://github.com/antedeguemon/earleyparser',
