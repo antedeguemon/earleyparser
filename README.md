@@ -45,9 +45,7 @@ parser.print_derivation_tree("yellow cat")
 pip install earleyparser
 ```
 
-## Examples
-
-### Creating a grammar that accepts only binary numbers
+## Example
 
 ```python
 import earleyparser
@@ -55,6 +53,8 @@ import earleyparser
 #
 # Builds the following grammar:
 # S -> 0S | 1S | 0 | 1
+#
+# Meaning it only accepts binary numbers
 #
 grammar = earleyparser.Grammar('S')
 grammar.add('S', ['0', 'S'])
