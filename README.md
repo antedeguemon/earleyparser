@@ -5,6 +5,40 @@ This is a Python implementation of the [Earley parser algorithm](https://en.wiki
 It determines if a given word belongs to a specified context-free language. If the word
 belongs to the specified language, it also mounts the parsing [derivation tree](https://en.wikipedia.org/wiki/Parse_tree).
 
+**I made this library as a college homework. It is pretty crude and should be considered an experiment.**
+
+### Limitations
+
+Strings are not supported in grammars - instead of using strings, you should use
+lists of characters:
+
+```python
+import earleyparser
+
+grammar = earleyparser.Grammar('S')
+
+# Sentence is composed of `<adjective> <noun>`
+grammar.add('S', ['A', ' ', 'N'])
+
+# Adjective is `happy`, `yellow` or `red`
+grammar.add('A', ['h', 'a', 'p', 'p', 'y'])
+grammar.add('A', ['y', 'e', 'l', 'l', 'o', 'w'])
+grammar.add('A', ['r', 'e', 'd'])
+
+# Noun is `dog` or `cat`
+grammar.add('N', ['d', 'o', 'g'])
+grammar.add('N', ['c', 'a', 't'])
+
+parser = earleyparser.Parser(grammar)
+parser.print_derivation_tree("red cat")
+
+# Due to some bug, the parser doesn't reset its state after it is run, so we
+# need to build it again.
+parser = earleyparser.Parser(grammar)
+parser.print_derivation_tree("yellow cat")
+
+```
+
 ## Installation
 
 ```
@@ -16,40 +50,57 @@ pip install earleyparser
 ### Creating a grammar that accepts only binary numbers
 
 ```python
-gr = earleyparser.Grammar('S')
-gr.add('S', ['0', 'S'])
-gr.add('S', ['1', 'S'])
-gr.add('S', ['1'])
-gr.add('S', ['0'])
-```
+import earleyparser
 
-### Checking if a word is accepted by a grammar
+#
+# Builds the following grammar:
+# S -> 0S | 1S | 0 | 1
+#
+grammar = earleyparser.Grammar('S')
+grammar.add('S', ['0', 'S'])
+grammar.add('S', ['1', 'S'])
+grammar.add('S', ['0'])
+grammar.add('S', ['1'])
 
-```python
-pr = earleyparser.Parser(gr)
-pr.run('101011')
+parser = earleyparser.Parser(grammar)
+parser.run('101011')
 
-# All derivations that went into the first production
-completes = pr.get_completes()
-if len(completes) == 0:
+#
+# Checks if a word is accepted by a grammar
+#
+derivations = parser.get_completes()
+if len(derivations) == 0:
     print('Not accepted')
 else:
     print('Accepted!')
+
+#
+# Prints a derivation tree
+#
+parser = earleyparser.Parser(grammar)
+parser.print_derivation_tree("0101011")
 ```
 
-### Building an AST from a parsing
+The resulting derivation from the above snippet is:
 
-```python
-# The word `101011` was recognized by the grammer
-# therefore, `completes` should have exactly one item.
-def walk(node, level=0):
-    print level*'-' + node['a']
-    for child in node['children']:
-        walk(child, level+1)
-
-ast = pr.make_node(completes[0])
-walk(ast)
 ```
+GAMMA
+..S
+....0
+....S
+......1
+......S
+........0
+........S
+..........1
+..........S
+............0
+............S
+..............1
+..............S
+................1
+```
+
 
 ## References
 
