@@ -129,3 +129,26 @@ class Parser(object):
         del self.grammar.productions['GAMMA']
 
         return completes
+
+    #
+    # Runs parser on some list of words (tape) and pretty prints its derivation
+    # tree.
+    #
+    # `derivation_no` denotes which completed derivation will be shown
+    #
+    def print_derivation_tree(self, words, derivation_no=0):
+        self.run(words)
+        derivations = self.get_completes()
+
+        if len(derivations) < derivation_no:
+            print("Error: derivation not found!")
+            print("Are you sure the words given belong to the grammar?")
+            return False
+
+        root_node = self.make_node(derivations[derivation_no])
+        self.walk_node(root_node)
+
+    def walk_node(self, node, level=0):
+        print((level * '..') + node['a'])
+        for child in node['children']:
+            self.walk_node(child, level + 1)
