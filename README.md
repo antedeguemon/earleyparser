@@ -32,9 +32,9 @@ pr.run('101011')
 # All derivations that went into the first production
 completes = pr.get_completes()
 if len(completes) == 0:
-    print 'not accepted'
+    print('Not accepted')
 else:
-    print 'accepted!'
+    print('Accepted!')
 ```
 
 ### Building an AST from a parsing

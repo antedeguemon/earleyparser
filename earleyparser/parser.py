@@ -17,7 +17,7 @@ class Row(object):
         if len(formated) < 10:
             formated += '\t'
         formated += '\t\033[93m/'+str(self.start)+'\033[0m'
-        print formated
+        print(formated)
 
     def get_next(self):
         return self.right[self.dot] if self.dot < len(self.right) else None
@@ -80,7 +80,7 @@ class Parser(object):
 
     def scan(self, row):
         # creates a new row and copies the production that triggered this op
-        # from the table[k-1] to the current table, advacing the pointer
+        # from the table[k-1] to the current table, advancing the pointer
         next_symbol = row.get_next()
         if row.end < len(self.words):
             atual = self.words[row.end][0]
